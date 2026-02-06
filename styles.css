@@ -33,13 +33,53 @@ header {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent),
+    rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+}
+
+.player-photo-wrapper {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 6px solid #f97316;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #1e293b;
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#p-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.bid-display {
+  background: #1e293b;
+  border: 2px solid #22c55e;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 15px auto;
+  width: 320px;
+}
+
+.team-card-small {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  border-left-width: 6px;
 }
 
 .squad-view {
@@ -54,39 +94,14 @@ header {
   gap: 8px;
   padding: 10px;
   z-index: 40;
-}
-
-.player-photo-circle {
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  border: 6px solid #f97316;
-  object-fit: cover;
-  margin: 0 auto;
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
-}
-
-.bid-display {
-  background: #1e293b;
-  border: 2px solid #22c55e;
-  border-radius: 20px;
-  padding: 15px;
-  margin: 15px auto;
-  width: 320px;
-}
-
-.team-card-small {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 30px;
-  border-radius: 10px;
-  border-left-width: 6px;
+  overflow-y: auto;
 }
 
 .squad-card {
   background: rgba(255, 255, 255, 0.03);
   border-top-width: 5px;
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -100,120 +115,53 @@ header {
   font-weight: bold;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
 }
 
-/* Container to create the perfect circle and border */
-.player-photo-wrapper {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  border: 6px solid #f97316;
-  margin: 0 auto;
-  overflow: hidden; /* Important: this clips the image to the circle */
-  background: #1e293b; /* Placeholder color while loading */
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hidden {
+  display: none !important;
 }
 
-/* The actual image inside the circle */
-#p-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* This is the "Magic" property that fills the circle */
-  object-position: center top; /* Keeps faces in view for most portraits */
-  display: block;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* __________________ */
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
 
-/* --- RESPONSIVE ADJUSTMENTS --- */
-
-/* For Tablets and Mobile */
+/* Mobile Response */
 @media (max-width: 1024px) {
   .auction-layout {
-    grid-template-columns: 1fr; /* Stack everything in one column */
+    grid-template-columns: 1fr;
     overflow-y: auto;
     height: auto;
-    padding-bottom: 40px;
   }
-
-  #leftTeams,
-  #rightTeams {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Teams in 2 columns on mobile */
-    gap: 8px;
-  }
-
-  /* Flip order so player is at the top */
   .glass-panel {
     order: -1;
     margin-bottom: 20px;
   }
-
-  .player-photo-wrapper {
-    width: 200px;
-    height: 200px;
-  }
-
-  #p-name {
-    font-size: 2.5rem;
-  }
-
-  .bid-display {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .squad-view {
-    grid-template-columns: repeat(2, 1fr); /* 2 Teams per row in squad view */
-    overflow-y: auto;
-  }
-}
-
-/* For Small Mobile Devices */
-@media (max-width: 640px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    gap: 10px;
-  }
-
   #leftTeams,
   #rightTeams {
-    grid-template-columns: 1fr; /* Teams take full width */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-
   .squad-view {
-    grid-template-columns: 1fr;
-  }
-
-  .flex.gap-4.mt-6.justify-center {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .w-48 {
-    width: 100% !important;
-    max-width: 280px;
-  }
-
-  .modal > div {
-    width: 90%;
-    padding: 20px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }

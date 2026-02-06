@@ -1,198 +1,4 @@
-// let players = [];
-// let currentBid = 3000;
-// let activePlayer = null;
-
-// const defaultTeams = [
-//   {
-//     id: 0,
-//     name: "Maratha Warriors",
-//     captain: "Dayanand Yesade",
-//     color: "#97b638",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-//   {
-//     id: 1,
-//     name: "Fort King",
-//     captain: "Prasad Kadam",
-//     color: "#86a8d6",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-//   {
-//     id: 2,
-//     name: "Raigad Ranger's",
-//     captain: "Pandurang Dorugade",
-//     color: "#d92f46",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-//   {
-//     id: 3,
-//     name: "Maharaj Lions",
-//     captain: "Parikshit Patil",
-//     color: "#841810",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-//   {
-//     id: 4,
-//     name: "Veer Maratha",
-//     captain: "Ankush Sawant",
-//     color: "#eb6b2d",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-//   {
-//     id: 5,
-//     name: "Panhala panthers",
-//     captain: "Roshan Dorugade",
-//     color: "#382566",
-//     budget: 80000,
-//     squad: [],
-//     refillUsed: false,
-//   },
-// ];
-
-// let teams = JSON.parse(localStorage.getItem("csmpl_v3_data")) || defaultTeams;
-
-// fetch("players.json")
-//   .then((r) => r.json())
-//   .then((d) => (players = d));
-
-// function updateUI() {
-//   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
-//   const left = document.getElementById("leftTeams");
-//   const right = document.getElementById("rightTeams");
-//   const squad = document.getElementById("squadView");
-//   const modal = document.getElementById("modalTeams");
-
-//   left.innerHTML = "";
-//   right.innerHTML = "";
-//   squad.innerHTML = "";
-//   modal.innerHTML = "";
-
-//   teams.forEach((t, i) => {
-//     // Auction Sidebar
-//     const teamHTML = `
-//             <div class="team-card-small" style="border-left-color: ${t.color}; background: ${t.color}15">
-//                 <div class="flex justify-between text-[9px] font-bold text-gray-300 uppercase">
-//                     <span>${t.name}</span><span>${t.squad.length}/7</span>
-//                 </div>
-//                 <div class="text-xl font-black">₹${t.budget.toLocaleString()}</div>
-//                 ${!t.refillUsed ? `<button onclick="refill(${t.id})" class="bg-white/10 hover:bg-white/20 text-[8px] px-2 py-0.5 rounded mt-1 font-bold border border-white/20">REFILL +30K</button>` : '<div class="text-[8px] opacity-30 mt-1 uppercase font-bold italic">Refill Used</div>'}
-//             </div>
-//         `;
-//     if (i < 3) left.innerHTML += teamHTML;
-//     else right.innerHTML += teamHTML;
-
-//     // Squad View
-//     let squadPlayersHTML = `<div class="flex justify-between bg-white/5 p-1 rounded mb-1 text-xs">
-//             <span class="font-bold uppercase text-orange-400">${t.captain}</span><span class="captain-label">CPT</span>
-//         </div>`;
-
-//     for (let j = 0; j < 7; j++) {
-//       squadPlayersHTML += `
-//                 <div class="flex justify-between border-b border-white/5 text-[11px] py-1 text-gray-400">
-//                     <span>${t.squad[j] ? t.squad[j].name : "---"}</span>
-//                     <span class="text-white/50">${t.squad[j] ? "₹" + t.squad[j].price : ""}</span>
-//                 </div>
-//             `;
-//     }
-
-//     squad.innerHTML += `
-//             <div class="squad-card" style="border-top-color: ${t.color}">
-//                 <div class="mb-2 text-center border-b border-white/10 pb-1">
-//                     <div class="text-[10px] font-bold" style="color: ${t.color}">${t.name}</div>
-//                     <div class="text-lg font-black italic">₹${t.budget.toLocaleString()}</div>
-//                 </div>
-//                 <div class="flex-1 overflow-hidden">${squadPlayersHTML}</div>
-//             </div>
-//         `;
-
-//     // Modal Teams
-//     modal.innerHTML += `
-//             <button onclick="finalizeSale(${t.id})" class="w-full hover:bg-white/10 p-3 rounded-xl flex justify-between font-bold text-sm transition border border-white/5" style="border-left: 4px solid ${t.color}">
-//                 ${t.name} <span style="color: ${t.color}">₹${t.budget.toLocaleString()}</span>
-//             </button>
-//         `;
-//   });
-// }
-
-// function loadPlayer() {
-//   const id = document.getElementById("searchId").value;
-//   const p = players.find((x) => x.id == id);
-//   if (p) {
-//     activePlayer = p;
-//     currentBid = 3000;
-//     document.getElementById("p-name").innerText = p.name;
-//     document.getElementById("p-role").innerText = p.type;
-//     document.getElementById("p-img").src = p.photo;
-//     document.getElementById("bidDisplay").innerText =
-//       currentBid.toLocaleString();
-//     document.getElementById("playerSection").classList.remove("hidden");
-//     document.getElementById("idleText").classList.add("hidden");
-//   }
-// }
-
-// function raiseBid() {
-//   if (currentBid < 10000) currentBid += 500;
-//   else if (currentBid < 20000) currentBid += 1000;
-//   else if (currentBid < 50000) currentBid += 2000;
-//   document.getElementById("bidDisplay").innerText = currentBid.toLocaleString();
-// }
-
-// function finalizeSale(tId) {
-//   const t = teams[tId];
-//   if (t.budget < currentBid) return alert("Insufficient Budget!");
-//   if (t.squad.length >= 7) return alert("Squad is Full (7 Players Max)!");
-
-//   t.budget -= currentBid;
-//   t.squad.push({ name: activePlayer.name, price: currentBid.toLocaleString() });
-//   closeModal();
-//   resetStage();
-// }
-
-// function refill(id) {
-//   if (confirm(`Use +30,000 refill for ${teams[id].name}?`)) {
-//     teams[id].budget += 30000;
-//     teams[id].refillUsed = true;
-//     updateUI();
-//   }
-// }
-
-// function toggleView() {
-//   document.getElementById("squadView").classList.toggle("hidden");
-// }
-// function resetStage() {
-//   activePlayer = null;
-//   document.getElementById("playerSection").classList.add("hidden");
-//   document.getElementById("idleText").classList.remove("hidden");
-//   document.getElementById("searchId").value = "";
-//   updateUI();
-// }
-
-// function openSoldModal() {
-//   document.getElementById("modal").classList.remove("hidden");
-// }
-// function closeModal() {
-//   document.getElementById("modal").classList.add("hidden");
-// }
-// function resetTourney() {
-//   if (confirm("CLEAR ALL DATA?")) {
-//     localStorage.clear();
-//     location.reload();
-//   }
-// }
-
-// updateUI();
-
-let players = [
+const players = [
   {
     id: 1,
     name: "Abhinav Takale",
@@ -311,7 +117,7 @@ let players = [
     id: 20,
     name: "Sachin Mandavkar",
     type: "All-Rounder",
-    photo: "images/20.सचिन मांडवकर.png",
+    photo: "images/20.सचิน मांडवकर.png",
   },
   {
     id: 21,
@@ -439,7 +245,6 @@ let players = [
     type: "All-Rounder",
     photo: "images/41.Vedant-dhatombe.jpg",
   },
-
   {
     id: 42,
     name: "Lokesh Mande",
@@ -448,67 +253,81 @@ let players = [
   },
 ];
 
-let currentBid = 3000;
-let activePlayer = null;
-
 const defaultTeams = [
   {
     id: 0,
     name: "Maratha Warriors",
     captain: "Dayanand Yesade",
     color: "#97b638",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/1.marathaWorriors.png",
+    captainImg: "images/captain/दयानंद येसादे.png",
   },
   {
     id: 1,
-    name: "Fort King",
+    name: "Kokan-Kada Packers",
     captain: "Prasad Kadam",
     color: "#86a8d6",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/2.kokanKada.png",
+    captainImg: "images/captain/प्रसाद कदम.png",
   },
   {
     id: 2,
-    name: "Raigad Ranger's",
+    name: "Swaraj Rakshak",
     captain: "Pandurang Dorugade",
     color: "#d92f46",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/3.swarajRakshak.png",
+    captainImg: "images/captain/पांडुरंग दोरुगडे.png",
   },
   {
     id: 3,
     name: "Maharaj Lions",
     captain: "Parikshit Patil",
     color: "#841810",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/4.maharajsLion.png",
+    captainImg: "images/captain/परीक्षित पाटील.png",
   },
   {
     id: 4,
     name: "Veer Maratha",
     captain: "Ankush Sawant",
     color: "#eb6b2d",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/5.virMaratha.png",
+    captainImg: "images/captain/अंकुश सावंत.png",
   },
   {
     id: 5,
     name: "Panhala panthers",
     captain: "Roshan Dorugade",
     color: "#382566",
-    budget: 80000,
+    budget: 100000,
     squad: [],
     refillUsed: false,
+    logo: "images/logo/6.jayBhavani.png",
+    captainImg: "images/captain/Roshan-Dorugade.png",
   },
 ];
 
 let teams = JSON.parse(localStorage.getItem("csmpl_v3_data")) || defaultTeams;
+let currentBid = 3000;
+let activePlayer = null;
+const iplMusic = new Audio(
+  "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=IPL+Theme+Song&filename=mt/mtu0mzi4mtczmtu0ndkz_0_2f_2fb_2f_2f_2f_2fpl_2btheme_2bsong.mp3",
+);
 
 function updateUI() {
   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
@@ -523,9 +342,10 @@ function updateUI() {
   modal.innerHTML = "";
 
   teams.forEach((t, i) => {
+    // Sidebars
     const teamHTML = `
       <div class="team-card-small" style="border-left-color: ${t.color}; background: ${t.color}15">
-          <div class="flex justify-between text-[9px] font-bold text-gray-300 uppercase">
+          <div class="flex justify-between text-[10px] font-bold text-gray-300 uppercase">
               <span>${t.name}</span><span>${t.squad.length}/7</span>
           </div>
           <div class="text-xl font-black">₹${t.budget.toLocaleString()}</div>
@@ -534,32 +354,41 @@ function updateUI() {
     if (i < 3) left.innerHTML += teamHTML;
     else right.innerHTML += teamHTML;
 
-    let squadPlayersHTML = `<div class="flex justify-between bg-white/5 p-1 rounded mb-1 text-xs">
-        <span class="font-bold uppercase text-orange-400">${t.captain}</span><span class="captain-label">CPT</span>
-    </div>`;
-
+    // Squad Cards
+    let playersList = `<div class="flex justify-between bg-white/5 p-1 rounded mb-1 text-xs"><span class="font-bold uppercase text-orange-400">${t.captain}</span><span class="captain-label">CPT</span></div>`;
     for (let j = 0; j < 7; j++) {
-      squadPlayersHTML += `
-        <div class="flex justify-between border-b border-white/5 text-[11px] py-1 text-gray-400">
-            <span>${t.squad[j] ? t.squad[j].name : "---"}</span>
-            <span class="text-white/50">${t.squad[j] ? "₹" + t.squad[j].price : ""}</span>
-        </div>`;
+      playersList += `<div class="flex justify-between border-b border-white/5 text-[11px] py-1 text-gray-400"><span>${t.squad[j] ? t.squad[j].name : "---"}</span><span>${t.squad[j] ? "₹" + t.squad[j].price : ""}</span></div>`;
     }
 
     squad.innerHTML += `
       <div class="squad-card" style="border-top-color: ${t.color}">
-          <div class="mb-2 text-center border-b border-white/10 pb-1">
-              <div class="text-[10px] font-bold" style="color: ${t.color}">${t.name}</div>
-              <div class="text-lg font-black italic">₹${t.budget.toLocaleString()}</div>
+          <div class="text-center border-b border-white/10 pb-3 mb-2">
+              <div class="relative w-20 h-20 mx-auto mb-2">
+                  <img src="${t.captainImg}" onerror="this.src='images/captain/default.png'" class="w-full h-full object-cover rounded-full border-4" style="border-color: ${t.color}">
+                  <img src="${t.logo}" class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-900 rounded-full p-1 border border-white/10">
+              </div>
+              <div class="text-[10px] font-black uppercase tracking-tighter" style="color: ${t.color}">${t.name}</div>
+              <div class="inline-block px-4 py-1 rounded-full text-xs font-black mt-2" style="background: ${t.color}">₹${t.budget.toLocaleString()}</div>
           </div>
-          <div class="flex-1 overflow-hidden">${squadPlayersHTML}</div>
+          <div class="flex-1 overflow-hidden">${playersList}</div>
       </div>`;
 
-    modal.innerHTML += `
-      <button onclick="finalizeSale(${t.id})" class="w-full hover:bg-white/10 p-3 rounded-xl flex justify-between font-bold text-sm transition border border-white/5" style="border-left: 4px solid ${t.color}">
-          ${t.name} <span style="color: ${t.color}">₹${t.budget.toLocaleString()}</span>
-      </button>`;
+    modal.innerHTML += `<button onclick="finalizeSale(${t.id})" class="w-full hover:bg-white/10 p-3 rounded-xl flex justify-between font-bold text-sm border border-white/5" style="border-left: 4px solid ${t.color}">${t.name} <span style="color: ${t.color}">₹${t.budget.toLocaleString()}</span></button>`;
   });
+  updateStats();
+}
+
+function updateStats() {
+  const sold = teams.reduce((acc, t) => acc + t.squad.length, 0);
+  const top = Math.max(
+    ...teams.flatMap((t) =>
+      t.squad.map((s) => parseInt(s.price.replace(/,/g, "")) || 0),
+    ),
+    0,
+  );
+  document.getElementById("stat-sold").innerText = sold;
+  document.getElementById("stat-rem").innerText = players.length - sold;
+  document.getElementById("stat-top").innerText = "₹" + top.toLocaleString();
 }
 
 function loadPlayer() {
@@ -568,6 +397,7 @@ function loadPlayer() {
   if (p) {
     activePlayer = p;
     currentBid = 3000;
+    document.getElementById("maxLabel").classList.add("hidden");
     document.getElementById("p-name").innerText = p.name;
     document.getElementById("p-role").innerText = p.type;
     document.getElementById("p-img").src = p.photo;
@@ -576,48 +406,71 @@ function loadPlayer() {
     document.getElementById("playerSection").classList.remove("hidden");
     document.getElementById("idleText").classList.add("hidden");
   } else {
-    alert("Player ID not found!");
+    alert("ID not found");
   }
 }
 
 function raiseBid() {
-  if (currentBid < 10000) currentBid += 500;
-  else if (currentBid < 20000) currentBid += 1000;
-  else if (currentBid < 50000) currentBid += 2000;
+  if (currentBid >= 50000) return;
+  let inc =
+    currentBid < 10000
+      ? 500
+      : currentBid < 20000
+        ? 1000
+        : currentBid < 40000
+          ? 2000
+          : 5000;
+  currentBid = Math.min(currentBid + inc, 50000);
+  if (currentBid === 50000)
+    document.getElementById("maxLabel").classList.remove("hidden");
   document.getElementById("bidDisplay").innerText = currentBid.toLocaleString();
 }
 
 function finalizeSale(tId) {
   const t = teams[tId];
-  if (t.budget < currentBid) return alert("Insufficient Budget!");
-  if (t.squad.length >= 7) return alert("Squad is Full (7 Players Max)!");
-
+  if (t.budget < currentBid) return alert("Low Budget!");
+  if (t.squad.length >= 7) return alert("Squad Full!");
   t.budget -= currentBid;
   t.squad.push({ name: activePlayer.name, price: currentBid.toLocaleString() });
+  showCeleb(activePlayer.name, currentBid, t.name, t.color, t.logo);
   closeModal();
   resetStage();
 }
 
+function showCeleb(name, price, team, color, logo) {
+  const c = document.getElementById("soldCelebration");
+  document.getElementById("celeb-name").innerText = name;
+  document.getElementById("celeb-price").innerText =
+    "₹" + price.toLocaleString();
+  document.getElementById("celeb-team").innerText = team;
+  document.getElementById("celeb-team").style.color = color;
+  document.getElementById("celeb-logo").src = logo;
+  c.classList.remove("hidden");
+  c.classList.add("flex");
+  iplMusic.currentTime = 0;
+  iplMusic.play();
+  setTimeout(() => {
+    c.classList.add("hidden");
+    iplMusic.pause();
+  }, 8000);
+}
+
 function refill(id) {
-  if (confirm(`Use +30,000 refill for ${teams[id].name}?`)) {
+  if (confirm("Add 30k?")) {
     teams[id].budget += 30000;
     teams[id].refillUsed = true;
     updateUI();
   }
 }
-
 function toggleView() {
   document.getElementById("squadView").classList.toggle("hidden");
 }
-
 function resetStage() {
   activePlayer = null;
   document.getElementById("playerSection").classList.add("hidden");
   document.getElementById("idleText").classList.remove("hidden");
-  document.getElementById("searchId").value = "";
   updateUI();
 }
-
 function openSoldModal() {
   document.getElementById("modal").classList.remove("hidden");
 }
@@ -625,7 +478,7 @@ function closeModal() {
   document.getElementById("modal").classList.add("hidden");
 }
 function resetTourney() {
-  if (confirm("CLEAR ALL DATA?")) {
+  if (confirm("Reset All?")) {
     localStorage.clear();
     location.reload();
   }
