@@ -1,0 +1,254 @@
+[
+    {
+        "id": 1,
+        "name": "Abhinav Takale",
+        "type": "Batsman",
+        "photo": "images/1.अभिनव टाकळे.jpeg"
+    },
+    {
+        "id": 2,
+        "name": "Sahil Jadhav",
+        "type": "All-Rounder",
+        "photo": "images/2.साहिल जाधव.jpeg"
+    },
+    {
+        "id": 3,
+        "name": "Ritesh Dorugade",
+        "type": "All-Rounder",
+        "photo": "images/3.रितेश दारूगडे.jpeg"
+    },
+    {
+        "id": 4,
+        "name": "Vedant Apake",
+        "type": "All-Rounder",
+        "photo": "images/4.वेदांत आपके.jpeg"
+    },
+    {
+        "id": 5,
+        "name": "Vishal Malve",
+        "type": "Batsman",
+        "photo": "images/5.vishalMalve.jpeg"
+    },
+    {
+        "id": 6,
+        "name": "Ravi Harle",
+        "type": "All-Rounder",
+        "photo": "images/6.RockyHarle.jpeg"
+    },
+    {
+        "id": 7,
+        "name": "Yash Apake",
+        "type": "Batsman",
+        "photo": "images/7.यश आपके.jpeg"
+    },
+    {
+        "id": 8,
+        "name": "Yuvraj Kharwre",
+        "type": "All-Rounder",
+        "photo": "images/8.युवराज खवरे.png"
+    },
+    {
+        "id": 9,
+        "name": "Nayan Sawant",
+        "type": "Batsman",
+        "photo": "images/9.नयन सावंत.jpeg"
+    },
+    {
+        "id": 10,
+        "name": "Dhyaneshwar Uthale",
+        "type": "Batsman",
+        "photo": "images/10.ज्ञानेश्वर उथळे .jpeg"
+    },
+    {
+        "id": 11,
+        "name": "Prem Sathe",
+        "type": "All-Rounder",
+        "photo": "images/11.प्रेम साठे.jpeg"
+    },
+    {
+        "id": 12,
+        "name": "Aditya Todkar",
+        "type": "Batsman",
+        "photo": "images/12.आदित्य तोडकर.jpeg"
+    },
+    {
+        "id": 13,
+        "name": "Roshan Belvekar",
+        "type": "All-Rounder",
+        "photo": "images/13.रोशन बेळवेकर.jpeg"
+    },
+    {
+        "id": 14,
+        "name": "Suraj Sapkal",
+        "type": "Batsman",
+        "photo": "images/14.सुरज सातवेकर.jpeg"
+    },
+    {
+        "id": 15,
+        "name": "Swapnil Satvekar",
+        "type": "Batsman",
+        "photo": "images/15.स्वप्निल सातवेकर.jpeg"
+    },
+    {
+        "id": 16,
+        "name": "Sandip Shinde",
+        "type": "All-Rounder",
+        "photo": "images/16.संदीप शिंदे.jpeg"
+    },
+    {
+        "id": 17,
+        "name": "Manthan Satvekar",
+        "type": "All-Rounder",
+        "photo": "images/17.मंथन सातवेकर.jpeg"
+    },
+    {
+        "id": 18,
+        "name": "Vishal Shah",
+        "type": "All-Rounder",
+        "photo": "images/18.Vishal Shah.jpeg"
+    },
+    {
+        "id": 19,
+        "name": "Bhairu Satvekar",
+        "type": "All-Rounder",
+        "photo": "images/19.भैरव सातवेकर.jpeg"
+    },
+    {
+        "id": 20,
+        "name": "Sachin Mandavkar",
+        "type": "All-Rounder",
+        "photo": "images/20.सचिन मांडवकर.png"
+    },
+    {
+        "id": 21,
+        "name": "Sunil Satvekar",
+        "type": "Bowler",
+        "photo": "images/21.सुनील सातवेकर.jpeg"
+    },
+    {
+        "id": 22,
+        "name": "Satish Chavan",
+        "type": "All-Rounder",
+        "photo": "images/22.सतीश चव्हाण.jpeg"
+    },
+    {
+        "id": 23,
+        "name": "Atharva Shirke",
+        "type": "Bowler",
+        "photo": "images/23.AthravShirke.jpeg"
+    },
+    {
+        "id": 24,
+        "name": "Shridhar Bakale",
+        "type": "Bowler",
+        "photo": "images/24.श्रीधर बाकले.jpeg"
+    },
+    {
+        "id": 25,
+        "name": "Om Bagwe",
+        "type": "All-Rounder",
+        "photo": "images/25.ओम बागवे.jpeg"
+    },
+    {
+        "id": 26,
+        "name": "Shrikant Dhure",
+        "type": "Batsman",
+        "photo": "images/26.श्रीकांत धुरे.jpeg"
+    },
+    {
+        "id": 27,
+        "name": "Sanil Gore",
+        "type": "All-Rounder",
+        "photo": "images/27.सनी गोरे.jpeg"
+    },
+    {
+        "id": 28,
+        "name": "Swapnil Kesarkar",
+        "type": "Bowler",
+        "photo": "images/28.स्वप्निल केसरकर.jpeg"
+    },
+    {
+        "id": 29,
+        "name": "Dayanand Nalawade",
+        "type": "All-Rounder",
+        "photo": "images/29.दयानंद नलावडे.jpeg"
+    },
+    {
+        "id": 30,
+        "name": "Sagar Jadhav",
+        "type": "All-Rounder",
+        "photo": "images/30.सागर जाधव.jpeg"
+    },
+    {
+        "id": 31,
+        "name": "Vedant Bilaskar",
+        "type": "Batsman",
+        "photo": "images/31.वेदांत बिळासकर.png"
+    },
+    {
+        "id": 32,
+        "name": "Ganesh Dhure",
+        "type": "Batsman",
+        "photo": "images/32.गणेश धुरे.jpeg"
+    },
+    {
+        "id": 33,
+        "name": "Shrikant Shegar",
+        "type": "All-Rounder",
+        "photo": "images/33.श्रीकांत शेगर.jpeg"
+    },
+    {
+        "id": 34,
+        "name": "Pramod Shegar",
+        "type": "Batsman",
+        "photo": "images/34.प्रमोद शेगर.jpeg"
+    },
+    {
+        "id": 35,
+        "name": "Raj Harle",
+        "type": "All-Rounder",
+        "photo": "images/35.राजेंद्र हारळे.jpeg"
+    },
+    {
+        "id": 36,
+        "name": "Aryan Kamble",
+        "type": "All-Rounder",
+        "photo": "images/36.aryan-kamble.jpg"
+    },
+    {
+        "id": 37,
+        "name": "Vedant Takale",
+        "type": "All-Rounder",
+        "photo": "images/37.वेदांत टाकळे.jpeg"
+    },
+    {
+        "id": 38,
+        "name": "Aradhya Shinde",
+        "type": "All-Rounder",
+        "photo": "images/38.आराध्य शिंदे.jpeg"
+    },
+    {
+        "id": 39,
+        "name": "Ayush Ingavle",
+        "type": "All-Rounder",
+        "photo": "images/39.aayush.jpg"
+    },
+    {
+        "id": 40,
+        "name": "Navish Mandavkar",
+        "type": "All-Rounder",
+        "photo": "images/40.navish-mandavkar.jpeg"
+    },
+    {
+        "id": 41,
+        "name": "Vedant Ghatonbe",
+        "type": "All-Rounder",
+        "photo": "images/41.Vedant-dhatombe.jpg"
+    },
+    {
+        "id": 42,
+        "name": "Lokesh",
+        "type": "All-Rounder",
+        "photo": "images/42.Lokesh-mande.jpg"
+    }
+]
