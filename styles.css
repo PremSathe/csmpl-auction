@@ -137,3 +137,83 @@ header {
   object-position: center top; /* Keeps faces in view for most portraits */
   display: block;
 }
+
+/* __________________ */
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+/* For Tablets and Mobile */
+@media (max-width: 1024px) {
+  .auction-layout {
+    grid-template-columns: 1fr; /* Stack everything in one column */
+    overflow-y: auto;
+    height: auto;
+    padding-bottom: 40px;
+  }
+
+  #leftTeams,
+  #rightTeams {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Teams in 2 columns on mobile */
+    gap: 8px;
+  }
+
+  /* Flip order so player is at the top */
+  .glass-panel {
+    order: -1;
+    margin-bottom: 20px;
+  }
+
+  .player-photo-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  #p-name {
+    font-size: 2.5rem;
+  }
+
+  .bid-display {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .squad-view {
+    grid-template-columns: repeat(2, 1fr); /* 2 Teams per row in squad view */
+    overflow-y: auto;
+  }
+}
+
+/* For Small Mobile Devices */
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  #leftTeams,
+  #rightTeams {
+    grid-template-columns: 1fr; /* Teams take full width */
+  }
+
+  .squad-view {
+    grid-template-columns: 1fr;
+  }
+
+  .flex.gap-4.mt-6.justify-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .w-48 {
+    width: 100% !important;
+    max-width: 280px;
+  }
+
+  .modal > div {
+    width: 90%;
+    padding: 20px;
+  }
+}
