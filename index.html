@@ -112,19 +112,19 @@
           <div class="flex gap-4 mt-6 justify-center">
             <button
               onclick="raiseBid()"
-              class="w-48 bg-green-600 hover:bg-green-500 py-5 rounded-2xl font-black text-3xl shadow-xl active:scale-95 transition"
+              class="w-48 bg-green-600 hover:bg-green-500 py-2 rounded-2xl font-black text-3xl shadow-xl active:scale-95 transition"
             >
               RAISE
             </button>
             <button
               onclick="openSoldModal()"
-              class="w-48 bg-blue-600 hover:bg-blue-500 py-5 rounded-2xl font-black text-3xl shadow-xl active:scale-95 transition"
+              class="w-48 bg-blue-600 hover:bg-blue-500 py-2 rounded-2xl font-black text-3xl shadow-xl active:scale-95 transition"
             >
               SOLD
             </button>
             <button
               onclick="resetStage()"
-              class="px-6 bg-slate-700 py-5 rounded-2xl font-bold text-sm uppercase"
+              class="px-6 bg-slate-700 py-2 rounded-2xl font-bold text-sm uppercase"
             >
               Unsold
             </button>
@@ -140,7 +140,53 @@
           >
             ROOM
           </div>
-          <div class="grid grid-cols-3 gap-8 z-10">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 z-10"
+          >
+            <div
+              class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 w-full sm:w-44"
+            >
+              <div class="text-gray-400 text-xs uppercase font-bold mb-2">
+                Players Sold
+              </div>
+              <div
+                id="stat-sold"
+                class="text-3xl sm:text-5xl font-black text-orange-500"
+              >
+                0
+              </div>
+            </div>
+
+            <div
+              class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 w-full sm:w-44"
+            >
+              <div class="text-gray-400 text-xs uppercase font-bold mb-2">
+                Available
+              </div>
+              <div
+                id="stat-rem"
+                class="text-3xl sm:text-5xl font-black text-blue-400"
+              >
+                42
+              </div>
+            </div>
+
+            <div
+              class="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 w-full sm:w-44"
+            >
+              <div class="text-gray-400 text-xs uppercase font-bold mb-2">
+                Highest Buy
+              </div>
+              <div
+                id="stat-top"
+                class="text-2xl sm:text-4xl font-black text-green-400"
+              >
+                ₹0
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="grid grid-cols-3 gap-8 z-10">
             <div class="bg-white/5 p-6 rounded-2xl border border-white/10 w-44">
               <div class="text-gray-400 text-xs uppercase font-bold mb-2">
                 Players Sold
@@ -165,7 +211,7 @@
                 ₹0
               </div>
             </div>
-          </div>
+          </div> -->
           <div
             class="bg-orange-500 text-black px-10 py-3 rounded-full font-black italic uppercase animate-pulse z-10"
           >

@@ -8,7 +8,7 @@ html {
   height: 100vh;
   overflow: hidden;
   font-family: "Rajdhani", sans-serif;
-  background: #0f172a;
+  background: #020617;
   color: white;
 }
 
@@ -21,6 +21,7 @@ header {
   padding: 0 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   z-index: 50;
+  position: relative;
 }
 
 .auction-layout {
@@ -37,23 +38,24 @@ header {
     radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent),
     rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   overflow: hidden;
 }
 
 .player-photo-wrapper {
-  width: 260px;
-  height: 260px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  border: 6px solid #f97316;
+  border: 8px solid #f97316;
   margin: 0 auto;
   overflow: hidden;
   background: #1e293b;
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,56 +65,63 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: top;
 }
 
 .bid-display {
-  background: #1e293b;
+  background: #0f172a;
   border: 2px solid #22c55e;
-  border-radius: 20px;
-  padding: 15px;
+  border-radius: 25px;
+  /* padding: 15px; */
   margin: 15px auto;
-  width: 320px;
+  width: 340px;
+  box-shadow: inset 0 0 20px rgba(34, 197, 94, 0.1);
 }
 
 .team-card-small {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 10px;
-  border-left-width: 6px;
+  margin-top: 30px;
+  padding: 30px;
+  border-radius: 12px;
+  border-left: 6px solid;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
 }
 
 .squad-view {
   position: fixed;
-  top: 60px;
-  left: 0;
-  width: 100%;
-  height: calc(100vh - 60px);
+  inset: 60px 0 0 0;
   background: #020617;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  padding: 10px;
+  gap: 10px;
+  padding: 15px;
   z-index: 40;
   overflow-y: auto;
 }
 
 .squad-card {
   background: rgba(255, 255, 255, 0.03);
-  border-top-width: 5px;
-  border-radius: 12px;
-  padding: 10px;
+  border-top: 4px solid;
+  border-radius: 20px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 .captain-label {
-  font-size: 0.65rem;
-  padding: 1px 4px;
-  border-radius: 3px;
   background: #f97316;
   color: black;
-  font-weight: bold;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-weight: 800;
 }
 
 .modal {
@@ -132,7 +141,7 @@ header {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
@@ -144,24 +153,64 @@ header {
   animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* Mobile Response */
+/* --- HIGH QUALITY MOBILE RESPONSE --- */
 @media (max-width: 1024px) {
-  .auction-layout {
-    grid-template-columns: 1fr;
-    overflow-y: auto;
+  body,
+  html {
+    overflow: auto;
     height: auto;
   }
+
+  header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .auction-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Center Panel First on Mobile */
   .glass-panel {
     order: -1;
-    margin-bottom: 20px;
+    min-height: 500px;
+    padding: 20px 10px;
   }
+
+  .player-photo-wrapper {
+    width: 100px;
+    height: 100px;
+    border-width: 4px;
+  }
+
+  .bid-display {
+    width: 90%;
+    padding: 10px;
+  }
+
+  /* Grid of teams at bottom of mobile screen */
   #leftTeams,
   #rightTeams {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
+
   .squad-view {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr; /* Stack squads on mobile */
+    padding: 10px;
+  }
+
+  /* Adjust Text for Mobile */
+  h2#p-name {
+    font-size: 2.5rem;
+  }
+  .text-7xl {
+    font-size: 3.5rem;
   }
 }
