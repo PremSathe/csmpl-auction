@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700;800&display=swap");
 
 body,
 html {
@@ -27,12 +27,72 @@ header {
 .auction-layout {
   height: calc(100vh - 60px);
   display: grid;
-  grid-template-columns: 240px 1fr 240px;
-  gap: 10px;
-  padding: 10px;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 15px;
+  padding: 15px;
   box-sizing: border-box;
 }
 
+.sidebar-teams {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  justify-content: center;
+}
+
+/* --- NEW TEAM CARD DESIGN --- */
+.team-card-wrapper {
+  position: relative;
+  padding-top: 25px; /* Space for the logo bubble */
+}
+
+.team-logo-bubble {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55px;
+  height: 55px;
+  background: #0f172a;
+  border: 3px solid;
+  border-radius: 50%;
+  padding: 5px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.team-card-content {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 35px 12px 12px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.team-card-content:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.captain-thumb {
+  width: 65px;
+  height: 65px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.budget-text {
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* --- CENTER PANEL & REST --- */
 .glass-panel {
   background:
     radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent),
@@ -72,22 +132,9 @@ header {
   background: #0f172a;
   border: 2px solid #22c55e;
   border-radius: 25px;
-  /* padding: 15px; */
   margin: 15px auto;
   width: 340px;
   box-shadow: inset 0 0 20px rgba(34, 197, 94, 0.1);
-}
-
-.team-card-small {
-  margin-top: 30px;
-  padding: 30px;
-  border-radius: 12px;
-  border-left: 6px solid;
-  transition: all 0.2s ease;
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -ms-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
 }
 
 .squad-view {
@@ -109,10 +156,6 @@ header {
   padding: 12px;
   display: flex;
   flex-direction: column;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
 }
 
 .captain-label {
@@ -148,69 +191,44 @@ header {
     transform: scale(1);
   }
 }
-
 .animate-fadeIn {
   animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* --- HIGH QUALITY MOBILE RESPONSE --- */
 @media (max-width: 1024px) {
   body,
   html {
     overflow: auto;
     height: auto;
   }
-
   header {
     flex-direction: column;
     height: auto;
     padding: 10px;
     gap: 10px;
   }
-
   .auction-layout {
     grid-template-columns: 1fr;
     height: auto;
     display: flex;
     flex-direction: column;
   }
-
-  /* Center Panel First on Mobile */
   .glass-panel {
     order: -1;
     min-height: 500px;
     padding: 20px 10px;
   }
-
   .player-photo-wrapper {
-    width: 100px;
-    height: 100px;
-    border-width: 4px;
+    width: 220px;
+    height: 220px;
   }
-
   .bid-display {
     width: 90%;
-    padding: 10px;
   }
-
-  /* Grid of teams at bottom of mobile screen */
-  #leftTeams,
-  #rightTeams {
+  .sidebar-teams {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .squad-view {
-    grid-template-columns: 1fr; /* Stack squads on mobile */
+    gap: 15px;
     padding: 10px;
-  }
-
-  /* Adjust Text for Mobile */
-  h2#p-name {
-    font-size: 2.5rem;
-  }
-  .text-7xl {
-    font-size: 3.5rem;
   }
 }

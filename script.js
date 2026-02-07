@@ -326,11 +326,10 @@ let teams = JSON.parse(localStorage.getItem("csmpl_v3_data")) || defaultTeams;
 let currentBid = 3000;
 let activePlayer = null;
 
-// --- AUDIO ASSETS ---
 const iplMusic = new Audio(
   "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=IPL+Theme+Song&filename=mt/mtu0mzi4mtczmtu0ndkz_0_2f_2fb_2f_2f_2f_2fpl_2btheme_2bsong.mp3",
 );
-const soldSound = new Audio("sounds/hammer.mp3"); // Your local sold sound file
+const soldSound = new Audio("sounds/hammer.mp3");
 
 function updateUI() {
   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
@@ -346,39 +345,45 @@ function updateUI() {
 
   teams.forEach((t, i) => {
     const teamHTML = `
-      <div class="team-card-small flex items-center gap-3" style="border-left-color: ${t.color}; background: ${t.color}15">
-          <div class="relative shrink-0">
-              <img src="${t.captainImg}" onerror="this.src='images/captain/default.png'" class="w-12 h-12 rounded-full border-2 object-cover" style="border-color: ${t.color}">
-          </div>
-          <div class="flex-1">
-              <div class="flex justify-between text-[10px] font-bold text-gray-300 uppercase">
-                  <span>${t.name}</span><span>${t.squad.length}/7</span>
-              </div>
-              <div class="text-lg font-black italic">₹${t.budget.toLocaleString()}</div>
-              ${!t.refillUsed ? `<button onclick="refill(${t.id})" class="bg-white/10 hover:bg-white/20 text-[8px] px-2 py-0.5 rounded mt-0.5 font-bold border border-white/20 uppercase tracking-tighter">REFILL +30K</button>` : '<div class="text-[8px] opacity-30 mt-0.5 uppercase font-bold italic tracking-tighter">Refill Used</div>'}
-          </div>
-      </div>`;
+        <div class="team-card-wrapper">
+            <img src="${t.logo}" class="team-logo-bubble" style="border-color: ${t.color}">
+            <div class="team-card-content" style="border-left: 5px solid ${t.color}">
+                <img src="${t.captainImg}" class="captain-thumb" onerror="this.src='images/captain/default.png'">
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">${t.name}</span>
+                        <span class="text-[10px] font-black text-white">${t.squad.length}/7</span>
+                    </div>
+                    <div class="budget-text italic">₹${t.budget.toLocaleString()}</div>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-[8px] font-bold text-orange-500 uppercase">${t.captain.split(" ")[0]}</span>
+                        ${!t.refillUsed ? `<button onclick="refill(${t.id})" class="text-[7px] bg-white/10 px-1 rounded border border-white/20">REFILL</button>` : ""}
+                    </div>
+                </div>
+            </div>
+        </div>`;
 
     if (i < 3) left.innerHTML += teamHTML;
     else right.innerHTML += teamHTML;
 
+    // Squad View & Modal remain the same as previous logic
     let playersList = `<div class="flex justify-between bg-white/5 p-1 rounded mb-1 text-xs"><span class="font-bold uppercase text-orange-400">${t.captain}</span><span class="captain-label">CPT</span></div>`;
     for (let j = 0; j < 7; j++) {
       playersList += `<div class="flex justify-between border-b border-white/5 text-[11px] py-1 text-gray-400"><span>${t.squad[j] ? t.squad[j].name : "---"}</span><span>${t.squad[j] ? "₹" + t.squad[j].price : ""}</span></div>`;
     }
 
     squad.innerHTML += `
-      <div class="squad-card" style="border-top-color: ${t.color}">
-          <div class="text-center border-b border-white/10 pb-3 mb-2">
-              <div class="relative w-20 h-20 mx-auto mb-2">
-                  <img src="${t.captainImg}" onerror="this.src='images/captain/default.png'" class="w-full h-full object-cover rounded-full border-4 shadow-lg" style="border-color: ${t.color}">
-                  <img src="${t.logo}" class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-900 rounded-full p-1 border border-white/10">
-              </div>
-              <div class="text-[10px] font-black uppercase tracking-tighter" style="color: ${t.color}">${t.name}</div>
-              <div class="inline-block px-4 py-1 rounded-full text-xs font-black mt-2 text-white" style="background: ${t.color}">₹${t.budget.toLocaleString()}</div>
-          </div>
-          <div class="flex-1 overflow-hidden">${playersList}</div>
-      </div>`;
+        <div class="squad-card" style="border-top-color: ${t.color}">
+            <div class="text-center border-b border-white/10 pb-3 mb-2">
+                <div class="relative w-20 h-20 mx-auto mb-2">
+                    <img src="${t.captainImg}" onerror="this.src='images/captain/default.png'" class="w-full h-full object-cover rounded-full border-4 shadow-lg" style="border-color: ${t.color}">
+                    <img src="${t.logo}" class="absolute -bottom-1 -right-1 w-7 h-7 bg-slate-900 rounded-full p-1 border border-white/10">
+                </div>
+                <div class="text-[10px] font-black uppercase tracking-tighter" style="color: ${t.color}">${t.name}</div>
+                <div class="inline-block px-4 py-1 rounded-full text-xs font-black mt-2 text-white" style="background: ${t.color}">₹${t.budget.toLocaleString()}</div>
+            </div>
+            <div class="flex-1 overflow-hidden">${playersList}</div>
+        </div>`;
 
     modal.innerHTML += `<button onclick="finalizeSale(${t.id})" class="w-full hover:bg-white/10 p-3 rounded-xl flex justify-between font-bold text-sm border border-white/5" style="border-left: 4px solid ${t.color}">${t.name} <span style="color: ${t.color}">₹${t.budget.toLocaleString()}</span></button>`;
   });
@@ -404,14 +409,34 @@ function loadPlayer() {
   if (p) {
     activePlayer = p;
     currentBid = 3000;
+    let buyerTeam = null;
+    let finalPrice = "";
+    teams.forEach((t) => {
+      const found = t.squad.find((s) => s.name === p.name);
+      if (found) {
+        buyerTeam = t;
+        finalPrice = found.price;
+      }
+    });
     document.getElementById("maxLabel").classList.add("hidden");
     document.getElementById("p-name").innerText = p.name;
     document.getElementById("p-role").innerText = p.type;
     document.getElementById("p-img").src = p.photo;
-    document.getElementById("bidDisplay").innerText =
-      currentBid.toLocaleString();
     document.getElementById("playerSection").classList.remove("hidden");
     document.getElementById("idleText").classList.add("hidden");
+    const stamp = document.getElementById("searchSoldStamp");
+    const controls = document.getElementById("auctionControls");
+    const bidDisp = document.getElementById("bidDisplay");
+    if (buyerTeam) {
+      stamp.classList.remove("hidden");
+      document.getElementById("soldToTeamName").innerText = buyerTeam.name;
+      controls.style.visibility = "hidden";
+      bidDisp.innerText = finalPrice;
+    } else {
+      stamp.classList.add("hidden");
+      controls.style.visibility = "visible";
+      bidDisp.innerText = currentBid.toLocaleString();
+    }
   } else {
     alert("ID not found");
   }
@@ -452,24 +477,17 @@ function showCeleb(name, price, team, color, logo) {
   document.getElementById("celeb-team").innerText = team;
   document.getElementById("celeb-team").style.color = color;
   document.getElementById("celeb-logo").src = logo;
-
   c.classList.remove("hidden");
   c.classList.add("flex");
-
-  // --- PLAY SOLD SOUNDS ---
   soldSound.currentTime = 0;
-  soldSound.play().catch((e) => console.log("Sold sound play failed:", e));
-
-  // Small delay for IPL music so the sold sound is clear
+  soldSound.play().catch((e) => {});
   setTimeout(() => {
     iplMusic.currentTime = 0;
-    iplMusic.play().catch((e) => console.log("IPL Music play failed:", e));
+    iplMusic.play().catch((e) => {});
   }, 400);
-
   setTimeout(() => {
     c.classList.add("hidden");
     iplMusic.pause();
-    soldSound.pause();
   }, 8000);
 }
 
@@ -480,7 +498,6 @@ function refill(id) {
     updateUI();
   }
 }
-
 function toggleView() {
   document.getElementById("squadView").classList.toggle("hidden");
 }
