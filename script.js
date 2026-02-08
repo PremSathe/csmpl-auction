@@ -313,7 +313,7 @@ const defaultTeams = [
     id: 5,
     name: "Jay-Bhavani Packers",
     captain: "Roshan Dorugade",
-    color: "#382566",
+    color: "#ff0000",
     budget: 100000,
     squad: [],
     refillUsed: false,
@@ -329,7 +329,7 @@ let activePlayer = null;
 const iplMusic = new Audio(
   "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=IPL+Theme+Song&filename=mt/mtu0mzi4mtczmtu0ndkz_0_2f_2fb_2f_2f_2f_2fpl_2btheme_2bsong.mp3",
 );
-const soldSound = new Audio("sounds/ipl.mp3");
+const soldSound = new Audio("sounds/ipl2.mp3");
 
 function updateUI() {
   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
@@ -497,7 +497,7 @@ function showCeleb(name, price, team, color, logo, photo) {
     c.classList.add("hidden");
     c.classList.remove("flex");
     iplMusic.pause();
-  }, 14000);
+  }, 1000);
 }
 
 function refill(id) {
