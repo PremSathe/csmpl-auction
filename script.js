@@ -31,7 +31,7 @@ const players = [
   },
   {
     id: 6,
-    name: "Ravi Harle",
+    name: "Rocky Harale",
     type: "All-Rounder",
     photo: "images/6.RockyHarle.jpeg",
   },
@@ -205,7 +205,7 @@ const players = [
   },
   {
     id: 35,
-    name: "Raj Harle",
+    name: "Raj Harale",
     type: "All-Rounder",
     photo: "images/35.राजेंद्र हारळे.jpeg",
   },
@@ -329,7 +329,7 @@ let activePlayer = null;
 const iplMusic = new Audio(
   "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=IPL+Theme+Song&filename=mt/mtu0mzi4mtczmtu0ndkz_0_2f_2fb_2f_2f_2f_2fpl_2btheme_2bsong.mp3",
 );
-const soldSound = new Audio("sounds/hammer.mp3");
+const soldSound = new Audio("sounds/ipl.mp3");
 
 function updateUI() {
   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
@@ -366,7 +366,6 @@ function updateUI() {
     if (i < 3) left.innerHTML += teamHTML;
     else right.innerHTML += teamHTML;
 
-    // Squad View & Modal remain the same as previous logic
     let playersList = `<div class="flex justify-between bg-white/5 p-1 rounded mb-1 text-xs"><span class="font-bold uppercase text-orange-400">${t.captain}</span><span class="captain-label">CPT</span></div>`;
     for (let j = 0; j < 7; j++) {
       playersList += `<div class="flex justify-between border-b border-white/5 text-[11px] py-1 text-gray-400"><span>${t.squad[j] ? t.squad[j].name : "---"}</span><span>${t.squad[j] ? "₹" + t.squad[j].price : ""}</span></div>`;
@@ -464,12 +463,19 @@ function finalizeSale(tId) {
   if (t.squad.length >= 7) return alert("Squad Full!");
   t.budget -= currentBid;
   t.squad.push({ name: activePlayer.name, price: currentBid.toLocaleString() });
-  showCeleb(activePlayer.name, currentBid, t.name, t.color, t.logo);
+  showCeleb(
+    activePlayer.name,
+    currentBid,
+    t.name,
+    t.color,
+    t.logo,
+    activePlayer.photo,
+  );
   closeModal();
   resetStage();
 }
 
-function showCeleb(name, price, team, color, logo) {
+function showCeleb(name, price, team, color, logo, photo) {
   const c = document.getElementById("soldCelebration");
   document.getElementById("celeb-name").innerText = name;
   document.getElementById("celeb-price").innerText =
@@ -477,6 +483,8 @@ function showCeleb(name, price, team, color, logo) {
   document.getElementById("celeb-team").innerText = team;
   document.getElementById("celeb-team").style.color = color;
   document.getElementById("celeb-logo").src = logo;
+  document.getElementById("celeb-player-img").src = photo;
+
   c.classList.remove("hidden");
   c.classList.add("flex");
   soldSound.currentTime = 0;
@@ -487,8 +495,9 @@ function showCeleb(name, price, team, color, logo) {
   }, 400);
   setTimeout(() => {
     c.classList.add("hidden");
+    c.classList.remove("flex");
     iplMusic.pause();
-  }, 8000);
+  }, 14000);
 }
 
 function refill(id) {
@@ -498,15 +507,23 @@ function refill(id) {
     updateUI();
   }
 }
+
 function toggleView() {
-  document.getElementById("squadView").classList.toggle("hidden");
+  const sv = document.getElementById("squadView");
+  const btn = document.getElementById("viewToggleBtn");
+  sv.classList.toggle("hidden");
+  btn.innerText = sv.classList.contains("hidden")
+    ? "Squad View"
+    : "Auction View";
 }
+
 function resetStage() {
   activePlayer = null;
   document.getElementById("playerSection").classList.add("hidden");
   document.getElementById("idleText").classList.remove("hidden");
   updateUI();
 }
+
 function openSoldModal() {
   document.getElementById("modal").classList.remove("hidden");
 }

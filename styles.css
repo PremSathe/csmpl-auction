@@ -40,10 +40,9 @@ header {
   justify-content: center;
 }
 
-/* --- NEW TEAM CARD DESIGN --- */
 .team-card-wrapper {
   position: relative;
-  padding-top: 25px; /* Space for the logo bubble */
+  padding-top: 25px;
 }
 
 .team-logo-bubble {
@@ -92,7 +91,6 @@ header {
   margin-top: 2px;
 }
 
-/* --- CENTER PANEL & REST --- */
 .glass-panel {
   background:
     radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent),
