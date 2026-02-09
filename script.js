@@ -666,7 +666,7 @@ function showCeleb(name, price, team, color, logo, photo) {
     c.classList.remove("flex");
     iplMusic.pause();
     updateStats();
-  }, 1000); // 3.5s duration for celebration
+  }, 15000); // 3.5s duration for celebration
 }
 
 function refill(id) {
