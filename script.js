@@ -322,34 +322,31 @@ const defaultTeams = [
   },
 ];
 
+// Data Arrays (Assuming 'players' and 'defaultTeams' are defined in your data file)
 let teams = JSON.parse(localStorage.getItem("csmpl_v3_data")) || defaultTeams;
 let currentBid = 3000;
 let activePlayer = null;
 
-const iplMusic = new Audio(
-  "https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=IPL+Theme+Song&filename=mt/mtu0mzi4mtczmtu0ndkz_0_2f_2fb_2f_2f_2f_2fpl_2btheme_2bsong.mp3",
-);
-const soldSound = new Audio("sounds/ipl.mp3");
+// Renamed for clarity: ipl.mp3 is the main theme, ipl2.mp3 is the sold notification
+const themeMusic = new Audio("sounds/ipl3.mp3");
+const soldMusic = new Audio("sounds/ipl2.mp3");
 
-// _____________Hype Page_________________
+// _____________ Hype Page Logic _________________
 
 function checkHypeStatus() {
   const hypePage = document.getElementById("hypePage");
   const isHypeDone = sessionStorage.getItem("csmpl_hype_done");
 
-  // Check if any players have already been sold (to avoid hype if auction is mid-way)
   const soldCount = teams.reduce(
     (acc, t) => acc + (t.squad ? t.squad.length : 0),
     0,
   );
 
   if (!isHypeDone && soldCount === 0) {
-    // Show the page ONLY if it's a fresh session and no sales made
     hypePage.style.display = "flex";
-    document.body.style.overflow = "hidden"; // Prevent scrolling
+    document.body.style.overflow = "hidden";
   } else {
-    // Remove it entirely so it doesn't slow down the site
-    hypePage.remove();
+    if (hypePage) hypePage.remove();
   }
 }
 
@@ -364,44 +361,39 @@ function startCountdown() {
 
   let count = 10;
 
-  // Play sound
-  if (typeof soldSound !== "undefined") soldSound.play().catch(() => {});
+  // Play theme music during countdown
+  themeMusic.play().catch(() => console.log("Audio blocked by browser"));
 
   const interval = setInterval(() => {
     count--;
 
     if (count > 0) {
       timerNumber.innerText = count;
-      // Trigger animation
       timerNumber.classList.remove("animate-ping");
-      void timerNumber.offsetWidth; // Force reflow
+      void timerNumber.offsetWidth;
       timerNumber.classList.add("animate-ping");
     } else {
       clearInterval(interval);
       timerNumber.innerText = "GO!";
-
-      // SAVE STATUS so it won't show again on refresh
       sessionStorage.setItem("csmpl_hype_done", "true");
 
       setTimeout(() => {
         hypePage.style.opacity = "0";
         hypePage.style.pointerEvents = "none";
 
-        // Play music to start the auction
-        if (typeof iplMusic !== "undefined") iplMusic.play().catch(() => {});
-
         setTimeout(() => {
           hypePage.remove();
-          document.body.style.overflow = "auto"; // Re-enable scrolling
+          document.body.style.overflow = "auto";
         }, 1000);
       }, 800);
     }
   }, 1000);
 }
-checkHypeStatus();
-// ______________________________
 
-// Core UI Update
+checkHypeStatus();
+
+// _____________ Core UI & Stats _________________
+
 function updateUI() {
   localStorage.setItem("csmpl_v3_data", JSON.stringify(teams));
   const left = document.getElementById("leftTeams");
@@ -475,35 +467,53 @@ function updateUI() {
   updateStats();
 }
 
-// Update Stats & Check Completion
 function updateStats() {
   const soldCount = teams.reduce((acc, t) => acc + t.squad.length, 0);
-  let topPrice = 0,
-    topPlayer = "None";
-  teams.forEach((t) =>
+  let topPrice = 0;
+  let topPlayers = [];
+
+  teams.forEach((t) => {
     t.squad.forEach((p) => {
       let pVal = parseInt(p.price.replace(/,/g, ""));
       if (pVal > topPrice) {
         topPrice = pVal;
-        topPlayer = p.name;
+        topPlayers = [p.name];
+      } else if (pVal === topPrice && topPrice > 0) {
+        if (!topPlayers.includes(p.name)) topPlayers.push(p.name);
       }
-    }),
-  );
+    });
+  });
 
   const remCount = players.length - soldCount;
   document.getElementById("stat-sold").innerText = soldCount;
   document.getElementById("stat-rem").innerText = remCount;
-  document.getElementById("stat-top").innerHTML =
-    `<div class="text-[10px] text-white truncate w-full uppercase opacity-60">${topPlayer}</div><div class="text-2xl font-black text-green-400">₹${topPrice.toLocaleString()}</div>`;
 
+  const displayNames = topPlayers.length > 0 ? topPlayers.join(" • ") : "None";
+  const isMultiple = topPlayers.length > 1;
+
+  document.getElementById("stat-top").innerHTML = `
+    <div class="w-full overflow-hidden whitespace-nowrap">
+      <div class="${isMultiple ? "animate-marquee" : ""} inline-block text-[10px] text-white uppercase opacity-60">
+        ${displayNames} ${isMultiple ? " • " + displayNames : ""}
+      </div>
+    </div>
+    <div class="text-2xl font-black text-green-400">₹${topPrice.toLocaleString()}</div>`;
+
+  // Only trigger finale IF this is the absolute end
   if (remCount === 0 && players.length > 0) {
-    setTimeout(triggerAuctionComplete, 4000);
+    // We call this after the celebration is done in finalizeSale
   }
 }
 
-// Cinematic Auction Complete Finale
+// _____________ Final Page & Effects _________________
+
 function triggerAuctionComplete() {
   if (document.getElementById("auctionCompleteScreen")) return;
+
+  // Stop sold sound, ensure theme music plays
+  soldMusic.pause();
+  themeMusic.currentTime = 0;
+  themeMusic.play().catch(() => {});
 
   const endScreen = document.createElement("div");
   endScreen.id = "auctionCompleteScreen";
@@ -514,32 +524,20 @@ function triggerAuctionComplete() {
         <div class="animate-bounce mb-4">
             <span class="bg-orange-600 text-white px-6 py-2 rounded-full font-black tracking-widest uppercase text-sm">Season 3 Finalized</span>
         </div>
-        
         <h1 class="text-6xl md:text-8xl font-black italic text-white mb-2 tracking-tighter uppercase">AUCTION COMPLETE</h1>
         <p class="text-xl md:text-2xl text-gray-400 mb-10 font-bold uppercase tracking-widest">All 42 Players Have Been Chosen</p>
-        
         <div class="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md mb-12 transform hover:scale-105 transition-all duration-500 shadow-2xl">
             <h3 class="text-orange-500 font-black text-2xl uppercase mb-2 italic">Save the Date</h3>
             <div class="launch-date text-5xl md:text-7xl font-black mb-2 uppercase tracking-tighter" style="background: linear-gradient(90deg, #f97316, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">18th March 2026</div>
             <p class="text-white/60 font-bold tracking-[0.3em] uppercase">CSMPL Season 3 Launch</p>
         </div>
-
         <button onclick="closeFinale()" class="bg-orange-600 hover:bg-white hover:text-orange-600 text-white px-12 py-5 rounded-2xl font-black text-2xl shadow-[0_0_50px_rgba(249,115,22,0.5)] transition-all active:scale-95 uppercase italic">
             View Final Squads
         </button>
     `;
 
   document.body.appendChild(endScreen);
-  soldSound.play().catch((e) => console.log("Audio play blocked"));
   createConfetti();
-}
-
-function closeFinale() {
-  const screen = document.getElementById("auctionCompleteScreen");
-  if (screen) screen.remove();
-  const sv = document.getElementById("squadView");
-  sv.classList.remove("hidden");
-  document.getElementById("viewToggleBtn").innerText = "Auction View";
 }
 
 function createConfetti() {
@@ -548,7 +546,6 @@ function createConfetti() {
   for (let i = 0; i < 120; i++) {
     setTimeout(() => {
       const confetti = document.createElement("div");
-      confetti.className = "confetti";
       confetti.style.position = "absolute";
       confetti.style.top = "-20px";
       confetti.style.left = Math.random() * 100 + "vw";
@@ -557,26 +554,21 @@ function createConfetti() {
       confetti.style.width = Math.random() * 8 + 5 + "px";
       confetti.style.height = Math.random() * 10 + 5 + "px";
       confetti.style.zIndex = "310";
-      confetti.style.opacity = Math.random();
-      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-      // CSS Animation Fall
-      const duration = Math.random() * 3 + 2;
       confetti.animate(
         [
           { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
           { transform: `translateY(110vh) rotate(720deg)`, opacity: 0 },
         ],
-        { duration: duration * 1000, easing: "linear" },
+        { duration: (Math.random() * 3 + 2) * 1000, easing: "linear" },
       );
-
       container.appendChild(confetti);
-      setTimeout(() => confetti.remove(), duration * 1000);
+      setTimeout(() => confetti.remove(), 5000);
     }, i * 40);
   }
 }
 
-// Load Player Logic with Team Name Stamp
+// _____________ Auction Controls _________________
+
 function loadPlayer() {
   const id = document.getElementById("searchId").value;
   const p = players.find((x) => x.id == id);
@@ -628,12 +620,14 @@ function finalizeSale(tId) {
   const t = teams[tId];
   if (t.budget < currentBid) return alert("Low Budget!");
   if (t.squad.length >= 7) return alert("Squad Full!");
+
   t.budget -= currentBid;
   t.squad.push({
     name: activePlayer.name,
     price: currentBid.toLocaleString(),
     type: activePlayer.type,
   });
+
   showCeleb(
     activePlayer.name,
     currentBid,
@@ -655,19 +649,38 @@ function showCeleb(name, price, team, color, logo, photo) {
   document.getElementById("celeb-team").style.color = color;
   document.getElementById("celeb-logo").src = logo;
   document.getElementById("celeb-player-img").src = photo;
+
   c.classList.remove("hidden");
   c.classList.add("flex");
-  soldSound.play().catch(() => {});
-  setTimeout(() => {
-    iplMusic.play().catch(() => {});
-  }, 400);
+
+  // Check if this is the final player before starting sounds
+  const totalSold = teams.reduce((acc, t) => acc + t.squad.length, 0);
+  const isLastPlayer = totalSold === players.length;
+
+  // Stop background music to play Sold sound
+  themeMusic.pause();
+
+  // Play Sold Sound (ipl2.mp3)
+  soldMusic.currentTime = 0;
+  soldMusic.play().catch(() => {});
+
+  // After 4 seconds, clear celebration
   setTimeout(() => {
     c.classList.add("hidden");
     c.classList.remove("flex");
-    iplMusic.pause();
-    updateStats();
-  }, 15000); // 3.5s duration for celebration
+    soldMusic.pause();
+
+    if (isLastPlayer) {
+      // If last player, go to Finale Screen with ipl.mp3
+      triggerAuctionComplete();
+    } else {
+      // Otherwise update stats and resume background theme
+      updateStats();
+    }
+  }, 4000);
 }
+
+// _____________ Utility Functions _________________
 
 function refill(id) {
   if (confirm("Add 30k?")) {
@@ -687,6 +700,7 @@ function toggleView() {
 }
 function resetStage() {
   activePlayer = null;
+  document.getElementById("searchId").value = "";
   document.getElementById("playerSection").classList.add("hidden");
   document.getElementById("idleText").classList.remove("hidden");
   updateUI();
@@ -700,8 +714,16 @@ function closeModal() {
 function resetTourney() {
   if (confirm("Reset All Data?")) {
     localStorage.clear();
+    sessionStorage.clear();
     location.reload();
   }
+}
+function closeFinale() {
+  const screen = document.getElementById("auctionCompleteScreen");
+  if (screen) screen.remove();
+  const sv = document.getElementById("squadView");
+  sv.classList.remove("hidden");
+  document.getElementById("viewToggleBtn").innerText = "Auction View";
 }
 
 function showTeamSquad(id) {
@@ -735,4 +757,5 @@ function releasePlayer(tId, pIdx) {
   }
 }
 
+// Start
 updateUI();
