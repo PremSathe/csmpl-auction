@@ -3,16 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CSMPL SEASON 3 - AUCTION</title>
-
+    <title>CRICKET AUCTION | CSMPL S3</title>
     <link rel="icon" type="image/png" href="images/logo/logo.png" />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="bg-slate-950 text-white overflow-x-hidden md:overflow-hidden">
-    <!-- _____Hype Page________ -->
 
+  <body class="bg-slate-950 text-white overflow-x-hidden md:overflow-hidden">
     <div
       id="hypePage"
       style="display: none"
@@ -21,7 +18,7 @@
       <div id="hypeContent">
         <img
           src="images/logo/logo.png"
-          alt="Logo"
+          alt="Tournament Logo"
           class="h-32 w-auto mx-auto mb-8 animate-pulse"
         />
         <h2
@@ -32,16 +29,14 @@
         <h1
           class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter mb-8"
         >
-          Chhatrapati Shivaji Maharaj<br /><span class="text-orange-600"
-            >Premier League</span
-          >
+          Chhatrapati Shivaji Maharaj<br />
+          <span class="text-orange-600">Premier League</span>
         </h1>
         <p
           class="text-gray-400 text-xl mb-10 font-bold uppercase tracking-widest"
         >
           Season 3 - Professional Auction
         </p>
-
         <button
           id="startBtn"
           onclick="startCountdown()"
@@ -61,15 +56,14 @@
         <div
           class="text-white text-3xl font-black uppercase tracking-[1em] mt-[-50px]"
         >
-          Warriors Incoming
+          Ready for Auction
         </div>
       </div>
     </div>
-    <!-- _____________ -->
 
     <div
       id="soldCelebration"
-      class="hidden fixed inset-0 z-[200] bg-black/95 flex-col items-center justify-center text-center p-4 animate-fadeIn"
+      class="hidden fixed inset-0 z-[200] bg-black/95 flex flex-col items-center justify-center text-center p-4 animate-fadeIn"
     >
       <div
         class="text-orange-500 text-3xl md:text-4xl font-black uppercase tracking-[0.3em] animate-pulse mb-6"
@@ -81,12 +75,17 @@
           <img id="celeb-player-img" src="" alt="Sold Player" />
         </div>
         <div class="celeb-logo-overlay">
-          <img id="celeb-logo" src="" class="w-full h-full object-contain" />
+          <img
+            id="celeb-logo"
+            src=""
+            alt="Team Logo"
+            class="w-full h-full object-contain"
+          />
         </div>
       </div>
       <h1
         id="celeb-name"
-        class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-2 text-center"
+        class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-2"
       >
         PLAYER NAME
       </h1>
@@ -104,81 +103,163 @@
       </div>
     </div>
 
-    <div id="teamSquadModal" class="modal hidden p-4">
-      <div
-        class="bg-slate-900 border border-white/20 p-6 rounded-3xl w-full max-w-[400px] shadow-2xl relative animate-fadeIn"
-      >
-        <button
-          onclick="closeTeamModal()"
-          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full font-bold shadow-lg hover:bg-red-500 transition z-10"
-        >
-          ✕
-        </button>
-        <div class="text-center mb-4">
-          <img id="modalTeamLogo" src="" class="h-16 w-16 mx-auto mb-2" />
-          <h3 id="modalTeamName" class="text-2xl font-black uppercase italic">
-            TEAM NAME
-          </h3>
-          <div id="modalTeamBudget" class="text-orange-500 font-bold">
-            ₹0,000
-          </div>
-        </div>
-        <div
-          id="modalSquadList"
-          class="space-y-2 max-h-[50vh] overflow-y-auto pr-2"
-        ></div>
-      </div>
-    </div>
-
-    <header class="bg-orange-600 shadow-xl relative z-50">
+    <header class="shadow-xl">
       <div class="flex items-center gap-4 px-4 py-2 md:py-0">
         <img src="images/logo/logo.png" alt="Logo" class="h-8 md:h-10 w-auto" />
         <h1 class="text-xl md:text-2xl font-black italic uppercase">
           CSMPL S3
         </h1>
-        <button
-          id="viewToggleBtn"
-          onclick="toggleView()"
-          class="bg-black/40 hover:bg-black/60 px-3 py-1 rounded text-[10px] font-bold border border-white/20 uppercase"
-        >
-          Squad View
-        </button>
+        <div class="flex gap-2">
+          <button
+            id="viewToggleBtn"
+            onclick="toggleView()"
+            class="bg-black/40 hover:bg-black/60 px-3 py-1 rounded text-[10px] font-bold border border-white/20 uppercase transition-all"
+          >
+            Squad View
+          </button>
+          <button
+            onclick="openPlayerListModal()"
+            class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-[10px] font-bold border border-blue-400/50 uppercase transition-all"
+          >
+            Player List
+          </button>
+        </div>
       </div>
 
       <div class="flex gap-2 px-4 py-2 md:py-0 items-center justify-center">
+        <button
+          onclick="rollDice()"
+          id="diceBtn"
+          class="bg-black/30 hover:bg-black/50 p-2 rounded border border-white/20 transition-all active:scale-90"
+          title="Pick Random Player"
+        >
+          <svg
+            id="diceIcon"
+            class="w-5 h-5 md:w-6 md:h-6 text-white"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.11 3.89,21 5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.11,3 19,3M7,5A2,2 0 0,1 9,7A2,2 0 0,1 7,9A2,2 0 0,1 5,7A2,2 0 0,1 7,5M7,15A2,2 0 0,1 9,17A2,2 0 0,1 7,19A2,2 0 0,1 5,17A2,2 0 0,1 7,15M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M17,15A2,2 0 0,1 19,17A2,2 0 0,1 17,19A2,2 0 0,1 15,17A2,2 0 0,1 17,15M17,5A2,2 0 0,1 19,7A2,2 0 0,1 17,9A2,2 0 0,1 15,7A2,2 0 0,1 17,5Z"
+            />
+          </svg>
+        </button>
+
         <input
           type="number"
           id="searchId"
           class="w-16 md:w-20 bg-black/30 border border-white/20 rounded px-2 py-1 text-center font-bold text-white focus:outline-none"
           placeholder="ID"
         />
+
         <button
           onclick="loadPlayer()"
           class="bg-white text-orange-600 font-bold px-4 md:px-6 py-1 rounded shadow-lg uppercase text-xs md:text-sm active:scale-95"
         >
           Load
         </button>
+
         <button
           onclick="resetTourney()"
-          class="text-[10px] text-black/40 hover:text-white uppercase font-bold ml-2"
+          class="bg-red-600/20 hover:bg-red-600 text-white border border-red-500/50 px-3 py-1 rounded text-[10px] font-bold uppercase transition-all ml-2"
         >
           Reset
         </button>
       </div>
     </header>
 
+    <div
+      id="playerListModal"
+      class="fixed inset-0 z-[600] hidden bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-slate-900 border border-white/10 w-full max-w-5xl max-h-[85vh] rounded-[2rem] overflow-hidden flex flex-col shadow-2xl"
+      >
+        <div
+          class="p-6 border-b border-white/5 flex justify-between items-center bg-white/5"
+        >
+          <div>
+            <h2
+              class="text-2xl font-black text-white italic uppercase tracking-tighter"
+            >
+              Auction Roster
+            </h2>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">
+              Real-time status of all players
+            </p>
+          </div>
+          <button
+            onclick="closePlayerListModal()"
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white hover:bg-red-500 transition-colors text-2xl"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div
+          class="flex-1 overflow-y-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar"
+        >
+          <div class="space-y-4">
+            <div
+              class="sticky top-0 bg-slate-900 pb-2 z-10 flex justify-between items-end border-b border-orange-500/20"
+            >
+              <h3
+                class="text-orange-500 font-black italic uppercase tracking-wider"
+              >
+                Unsold Pool
+              </h3>
+              <span
+                id="unsold-count-list"
+                class="text-orange-500 font-mono font-bold text-xl"
+                >0</span
+              >
+            </div>
+            <div
+              id="unsold-list-container"
+              class="grid grid-cols-1 gap-2"
+            ></div>
+          </div>
+
+          <div class="space-y-4">
+            <div
+              class="sticky top-0 bg-slate-900 pb-2 z-10 flex justify-between items-end border-b border-green-500/20"
+            >
+              <h3
+                class="text-green-500 font-black italic uppercase tracking-wider"
+              >
+                Sold Players
+              </h3>
+              <span
+                id="sold-count-list"
+                class="text-green-500 font-mono font-bold text-xl"
+                >0</span
+              >
+            </div>
+            <div id="sold-list-container" class="grid grid-cols-1 gap-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <main id="auctionView" class="auction-layout">
       <div id="leftTeams" class="sidebar-teams"></div>
 
-      <div class="glass-panel text-center relative">
+      <div class="glass-panel text-center">
+        <div
+          id="eliteNumberReveal"
+          class="hidden absolute inset-0 flex items-center justify-center z-[60] bg-slate-950/80 backdrop-blur-sm text-orange-500 text-[12rem] font-black italic"
+        ></div>
+
         <div id="playerSection" class="hidden z-10 relative">
           <div
             id="searchSoldStamp"
-            class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[50] bg-red-600 text-white px-8 py-4 rounded-xl border-4 border-white rotate-[-15deg] font-black text-3xl md:text-4xl shadow-2xl uppercase text-center"
+            class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[50] bg-red-600 text-white px-8 py-4 rounded-xl border-4 border-white rotate-[-15deg] font-black text-3xl md:text-4xl shadow-2xl uppercase"
           ></div>
+
           <div class="player-photo-wrapper">
             <img id="p-img" src="" alt="Player Photo" />
           </div>
+
           <h2
             id="p-name"
             class="text-4xl md:text-6xl font-black mt-4 uppercase tracking-tighter"
@@ -191,15 +272,17 @@
           >
             ---
           </p>
-          <div class="bid-display relative">
+
+          <div class="bid-display mt-4">
             <span
-              class="text-[10px] text-gray-400 uppercase font-bold tracking-widest"
-              >Valuation</span
+              class="text-[10px] text-gray-400 uppercase font-bold tracking-widest block pt-2"
+              >Base Valuation</span
             >
-            <div class="text-5xl md:text-7xl font-black text-green-400">
+            <div class="text-5xl md:text-7xl font-black text-green-400 pb-2">
               ₹<span id="bidDisplay">3,000</span>
             </div>
           </div>
+
           <div
             id="auctionControls"
             class="flex flex-wrap gap-2 md:gap-4 mt-6 justify-center px-2"
@@ -227,10 +310,10 @@
 
         <div
           id="idleText"
-          class="flex flex-col items-center justify-center space-y-6 md:space-y-10 animate-fadeIn"
+          class="flex flex-col items-center justify-center space-y-6 md:space-y-10 animate-fadeIn h-full"
         >
           <div
-            class="hidden md:flex text-white/5 text-[10rem] font-black italic uppercase absolute inset-0 items-center justify-center select-none"
+            class="hidden md:flex text-white/5 text-[10rem] font-black italic uppercase absolute inset-0 items-center justify-center select-none pointer-events-none"
           >
             AUCTION
           </div>
@@ -261,20 +344,17 @@
                 42
               </div>
             </div>
+
             <div
-              class="bg-white/5 p-4 md:p-6 rounded-2xl border border-white/10 w-full md:w-44 flex flex-col justify-center"
+              class="bg-white/5 p-4 md:p-6 rounded-2xl border border-white/10 w-full md:w-44 overflow-hidden"
             >
               <div class="text-gray-400 text-[10px] uppercase font-bold mb-1">
                 Top Buy
               </div>
-              <div id="stat-top">
-                <div class="text-[10px] text-white truncate px-1 uppercase">
-                  ---
-                </div>
-                <div class="text-xl md:text-2xl font-black text-green-400">
-                  ₹0
-                </div>
-              </div>
+              <div
+                id="stat-top"
+                class="flex flex-col justify-center h-full"
+              ></div>
             </div>
           </div>
         </div>
@@ -287,7 +367,7 @@
 
     <div id="modal" class="modal hidden p-4">
       <div
-        class="bg-slate-900 border border-white/20 p-6 md:p-8 rounded-3xl w-full max-w-[450px] shadow-2xl"
+        class="bg-slate-900 border border-white/20 p-6 md:p-8 rounded-3xl w-full max-w-[450px] shadow-2xl animate-fadeIn"
       >
         <h3
           class="text-xl md:text-2xl font-black mb-6 text-center text-orange-500 uppercase italic"
@@ -301,6 +381,37 @@
         >
           Cancel
         </button>
+      </div>
+    </div>
+
+    <div id="teamSquadModal" class="modal hidden p-4">
+      <div
+        class="bg-slate-900 border border-white/20 p-6 rounded-3xl w-full max-w-[400px] shadow-2xl relative animate-fadeIn"
+      >
+        <button
+          onclick="closeTeamModal()"
+          class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full font-bold shadow-lg hover:bg-red-500 transition z-10"
+        >
+          ✕
+        </button>
+        <div class="text-center mb-4">
+          <img
+            id="modalTeamLogo"
+            src=""
+            alt="Team Logo"
+            class="h-16 w-16 mx-auto mb-2"
+          />
+          <h3 id="modalTeamName" class="text-2xl font-black uppercase italic">
+            TEAM NAME
+          </h3>
+          <div id="modalTeamBudget" class="text-orange-500 font-bold">
+            ₹0,000
+          </div>
+        </div>
+        <div
+          id="modalSquadList"
+          class="space-y-2 max-h-[50vh] overflow-y-auto pr-2"
+        ></div>
       </div>
     </div>
 

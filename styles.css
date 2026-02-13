@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700;800&display=swap");
 
+/* ==========================================
+   BASE STYLES & RESET
+   ========================================== */
 body,
 html {
   margin: 0;
@@ -10,6 +13,10 @@ html {
   font-family: "Rajdhani", sans-serif;
   background: #020617;
   color: white;
+}
+
+body.hype-active {
+  overflow: hidden;
 }
 
 header {
@@ -23,28 +30,90 @@ header {
   position: relative;
 }
 
-/* _____ Hype Page _____ */
-#hypePage {
-  background-image:
-    radial-gradient(
-      circle at center,
-      rgba(249, 115, 22, 0.15) 0%,
-      transparent 70%
-    ),
-    url("https://www.transparenttextures.com/patterns/dark-matter.png");
+/* ==========================================
+   ELITE ANIMATIONS
+   ========================================== */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-#timerNumber {
-  text-shadow: 0 0 50px rgba(249, 115, 22, 0.8);
-  font-family: "Rajdhani", sans-serif;
-  line-height: 1;
+@keyframes glow-pulse {
+  0% {
+    text-shadow:
+      0 0 20px #f97316,
+      0 0 40px #f97316;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow:
+      0 0 50px #ff4500,
+      0 0 100px #ff4500;
+    transform: scale(1.05);
+  }
+  100% {
+    text-shadow:
+      0 0 20px #f97316,
+      0 0 40px #f97316;
+    transform: scale(1);
+  }
 }
 
-body.hype-active {
-  overflow: hidden;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* _____ Layout _____ */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes bgPulse {
+  0% {
+    background-color: #020617;
+  }
+  100% {
+    background-color: #0f172a;
+  }
+}
+
+/* Class Helpers for Animations */
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 15s linear infinite;
+  white-space: nowrap;
+}
+
+/* ==========================================
+   AUCTION LAYOUT
+   ========================================== */
 .auction-layout {
   height: calc(100vh - 60px);
   display: grid;
@@ -60,12 +129,14 @@ body.hype-active {
   justify-content: center;
 }
 
-/* _____ Team Cards _____ */
+/* Team Cards */
 .team-card-wrapper {
   position: relative;
   padding-top: 25px;
   cursor: pointer;
-  transition: 0.2s;
+  transition:
+    transform 0.2s,
+    filter 0.2s;
 }
 
 .team-card-wrapper:hover {
@@ -111,7 +182,9 @@ body.hype-active {
   line-height: 1;
 }
 
-/* _____ Glass Panel (Updated with Background Logo) _____ */
+/* ==========================================
+   MAIN PLAYER PANEL
+   ========================================== */
 .glass-panel {
   background:
     radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent),
@@ -127,23 +200,20 @@ body.hype-active {
   z-index: 1;
 }
 
+/* Watermark Background */
 .glass-panel::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-image: url("images/logo/logo.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 40%; /* Adjust size of background logo here */
-  opacity: 0.08; /* Subtle watermark effect */
+  background-size: 40%;
+  opacity: 0.08;
   pointer-events: none;
   z-index: -1;
 }
 
-/* _____ Player Photos _____ */
 .player-photo-wrapper,
 .celeb-photo-wrapper {
   width: 280px;
@@ -169,6 +239,114 @@ body.hype-active {
   object-position: top;
 }
 
+.bid-display {
+  background: #0f172a;
+  border: 2px solid #22c55e;
+  border-radius: 25px;
+  margin: 15px auto;
+  width: 340px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ==========================================
+   DICE SUSPENSE UI
+   ========================================== */
+#eliteNumberReveal {
+  font-family: "Arial Black", sans-serif;
+  letter-spacing: -5px;
+}
+/* 3D Dice Container */
+.dice-scene {
+  width: 120px;
+  height: 120px;
+  perspective: 600px;
+  margin-bottom: 40px;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.1s;
+}
+
+/* Fast Tumble Animation */
+.cube-rolling {
+  animation: rolling 0.4s infinite linear;
+}
+
+.cube-face {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid #f97316;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow:
+    inset 0 0 20px rgba(249, 115, 22, 0.5),
+    0 0 15px rgba(249, 115, 22, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: 900;
+  color: white;
+  border-radius: 15px;
+}
+
+/* 3D Positions */
+.face-front {
+  transform: rotateY(0deg) translateZ(60px);
+}
+.face-back {
+  transform: rotateY(180deg) translateZ(60px);
+}
+.face-right {
+  transform: rotateY(90deg) translateZ(60px);
+}
+.face-left {
+  transform: rotateY(-90deg) translateZ(60px);
+}
+.face-top {
+  transform: rotateX(90deg) translateZ(60px);
+}
+.face-bottom {
+  transform: rotateX(-90deg) translateZ(60px);
+}
+
+@keyframes rolling {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.scanline {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgba(249, 115, 22, 0.8);
+  box-shadow: 0 0 15px #f97316;
+  top: 0;
+  z-index: 20;
+  animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* ==========================================
+   CELEBRATION & SQUAD VIEW
+   ========================================== */
 .celeb-logo-overlay {
   position: absolute;
   bottom: 0;
@@ -183,17 +361,6 @@ body.hype-active {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-.bid-display {
-  background: #0f172a;
-  border: 2px solid #22c55e;
-  border-radius: 25px;
-  margin: 15px auto;
-  width: 340px;
-  position: relative;
-  z-index: 10;
-}
-
-/* _____ Squad View _____ */
 .squad-view {
   position: fixed;
   inset: 60px 0 0 0;
@@ -211,9 +378,17 @@ body.hype-active {
   border-top: 4px solid;
   border-radius: 20px;
   padding: 12px;
+  transition: transform 0.3s ease;
 }
 
-/* _____ Modals _____ */
+#auctionCompleteScreen {
+  background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+  animation: bgPulse 5s infinite alternate;
+}
+
+/* ==========================================
+   MODALS & UTILITIES
+   ========================================== */
 .modal {
   position: fixed;
   inset: 0;
@@ -228,7 +403,6 @@ body.hype-active {
   display: none !important;
 }
 
-/* _____ UI Helpers _____ */
 .role-icon {
   font-size: 10px;
   margin-left: 5px;
@@ -241,6 +415,7 @@ body.hype-active {
   padding: 0 6px;
   cursor: pointer;
   font-size: 16px;
+  transition: 0.2s;
 }
 
 .release-btn:hover {
@@ -257,39 +432,7 @@ body.hype-active {
   border-radius: 10px;
 }
 
-/* _____ Animations _____ */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  display: inline-block;
-  padding-left: 100%; /* Start from far right */
-  animation: marquee 15s linear infinite;
-  white-space: nowrap;
-}
-
-/* _____ Sold Stamp _____ */
+/* Sold Stamp in Search */
 #searchSoldStamp {
   display: flex;
   flex-direction: column;
@@ -300,40 +443,38 @@ body.hype-active {
   min-width: 300px;
 }
 
-#searchSoldStamp span {
-  font-size: 1.2rem;
-  display: block;
-  opacity: 0.9;
-  margin-top: 5px;
+/* The container that hides the overflow */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
 }
 
-/* _____ Finale Screens _____ */
-#auctionCompleteScreen {
-  background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
-  animation: bgPulse 5s infinite alternate;
+/* The sliding track */
+.marquee-content {
+  display: inline-block;
+  padding-left: 100%; /* Start from the right */
+  animation: marquee-slide 10s linear infinite;
 }
 
-@keyframes bgPulse {
+@keyframes marquee-slide {
   0% {
-    background-color: #020617;
+    transform: translate(0, 0);
   }
   100% {
-    background-color: #0f172a;
+    transform: translate(-100%, 0);
   }
 }
 
-@keyframes confettiFall {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
-  }
+/* Pause on hover so people can read the names */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
 }
 
-/* _____ Mobile View Responsive _____ */
+/* ==========================================
+   MOBILE RESPONSIVE
+   ========================================== */
 @media (max-width: 1024px) {
   body,
   html {
@@ -346,12 +487,6 @@ body.hype-active {
     flex-direction: column;
     padding: 10px;
     gap: 12px;
-    text-align: center;
-  }
-
-  header .flex {
-    justify-content: center;
-    width: 100%;
   }
 
   .auction-layout {
@@ -363,8 +498,6 @@ body.hype-active {
   }
 
   .sidebar-teams {
-    display: flex;
-    flex-direction: column;
     gap: 15px;
   }
 
@@ -375,7 +508,7 @@ body.hype-active {
   }
 
   .glass-panel::before {
-    background-size: 60%; /* Slightly larger logo on mobile */
+    background-size: 60%;
   }
 
   .player-photo-wrapper {
@@ -393,8 +526,8 @@ body.hype-active {
   }
 
   .modal > div {
-    width: 90% !important;
-    margin: 0 5%;
+    width: 95% !important;
+    margin: 0 auto;
   }
 
   .squad-view {
