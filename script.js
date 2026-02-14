@@ -757,7 +757,7 @@ function showCeleb(name, price, team, color, logo, photo) {
     if (isLast) triggerAuctionComplete();
     else updateStats();
     ``;
-  }, 4000);
+  }, 8000);
 }
 
 /* ==========================================
@@ -765,15 +765,12 @@ function showCeleb(name, price, team, color, logo, photo) {
    ========================================== */
 
 function rollDice() {
+  // 1. COMBINED POOL: Get all unsold players between ID 1 and 42
   const soldPlayerNames = teams.flatMap((t) => t.squad.map((p) => p.name));
-  const pool1 = players.filter(
-    (p) => p.id <= 36 && !soldPlayerNames.includes(p.name),
-  );
-  const pool2 = players.filter(
-    (p) => p.id > 36 && p.id <= 42 && !soldPlayerNames.includes(p.name),
+  const targetPool = players.filter(
+    (p) => p.id >= 1 && p.id <= 42 && !soldPlayerNames.includes(p.name),
   );
 
-  let targetPool = pool1.length > 0 ? pool1 : pool2.length > 0 ? pool2 : [];
   if (targetPool.length === 0)
     return alert("AUCTION TERMINATED: ALL PLAYERS SOLD!");
 
@@ -803,7 +800,7 @@ function rollDice() {
                     <span class="text-orange-500">Scanning Database...</span>
                 </h2>
                 <p id="poolBadge" class="mt-4 text-orange-500/50 font-bold tracking-[0.5em] text-xs">
-                    POOL: ${pool1.length > 0 ? "LEGENDS" : "NEXT GEN"}
+                    POOL: ALL PLAYERS (1-42)
                 </p>
             </div>
         </div>
@@ -822,6 +819,7 @@ function rollDice() {
     });
   }, 100);
 
+  // 2. TIMING UPDATE: Changed from 3000ms to 5000ms (5 seconds)
   setTimeout(() => {
     clearInterval(interval);
     const selectedPlayer =
@@ -841,6 +839,7 @@ function rollDice() {
 
     statusText.innerHTML = `<span class="text-green-500 animate-bounce">Player Selected: #${selectedPlayer.id}</span>`;
 
+    // Final cleanup and load
     setTimeout(() => {
       overlay.classList.add("opacity-0");
       setTimeout(() => {
@@ -848,9 +847,97 @@ function rollDice() {
         document.getElementById("searchId").value = selectedPlayer.id;
         loadPlayer();
       }, 500);
-    }, 2000);
+    }, 4000); // Wait 4 seconds on result screen before closing
   }, 3000);
 }
+
+// function rollDice() {
+//   const soldPlayerNames = teams.flatMap((t) => t.squad.map((p) => p.name));
+//   const pool1 = players.filter(
+//     (p) => p.id <= 36 && !soldPlayerNames.includes(p.name),
+//   );
+//   const pool2 = players.filter(
+//     (p) => p.id > 36 && p.id <= 42 && !soldPlayerNames.includes(p.name),
+//   );
+
+//   let targetPool = pool1.length > 0 ? pool1 : pool2.length > 0 ? pool2 : [];
+//   if (targetPool.length === 0)
+//     return alert("AUCTION TERMINATED: ALL PLAYERS SOLD!");
+
+//   const overlay = document.createElement("div");
+//   overlay.id = "diceSuspense";
+//   overlay.className =
+//     "fixed inset-0 z-[500] bg-slate-950 flex flex-col items-center justify-center backdrop-blur-3xl animate-fadeIn";
+
+//   overlay.innerHTML = `
+//         <div class="scanline"></div>
+//         <div class="relative flex flex-col items-center w-full">
+//             <div class="absolute w-[400px] h-[400px] border border-orange-500/10 rounded-full animate-pulse"></div>
+
+//             <div class="dice-scene">
+//                 <div id="cube" class="cube cube-rolling">
+//                     <div class="cube-face face-front">?</div>
+//                     <div class="cube-face face-back">?</div>
+//                     <div class="cube-face face-right">?</div>
+//                     <div class="cube-face face-left">?</div>
+//                     <div class="cube-face face-top">?</div>
+//                     <div class="cube-face face-bottom">?</div>
+//                 </div>
+//             </div>
+
+//             <div class="text-center mt-8">
+//                 <h2 id="eliteStatusText" class="text-white text-3xl md:text-5xl font-black italic tracking-tighter uppercase">
+//                     <span class="text-orange-500">Scanning Database...</span>
+//                 </h2>
+//                 <p id="poolBadge" class="mt-4 text-orange-500/50 font-bold tracking-[0.5em] text-xs">
+//                     POOL: ${pool1.length > 0 ? "LEGENDS" : "NEXT GEN"}
+//                 </p>
+//             </div>
+//         </div>
+//     `;
+//   document.body.appendChild(overlay);
+
+//   if (bidTick) {
+//     bidTick.play();
+//   }
+
+//   // Randomize faces during roll
+//   const cubeFaces = overlay.querySelectorAll(".cube-face");
+//   const interval = setInterval(() => {
+//     cubeFaces.forEach((face) => {
+//       face.innerText = Math.floor(Math.random() * 42) + 1;
+//     });
+//   }, 100);
+
+//   setTimeout(() => {
+//     clearInterval(interval);
+//     const selectedPlayer =
+//       targetPool[Math.floor(Math.random() * targetPool.length)];
+//     const cube = document.getElementById("cube");
+//     const statusText = document.getElementById("eliteStatusText");
+
+//     // Stop Rolling and Reveal
+//     cube.classList.remove("cube-rolling");
+//     cube.style.transform = "rotateX(0deg) rotateY(0deg) scale(1.5)";
+
+//     cubeFaces.forEach((face) => {
+//       face.innerText = selectedPlayer.id;
+//       face.style.borderColor = "#22c55e";
+//       face.style.boxShadow = "inset 0 0 30px rgba(34, 197, 94, 0.6)";
+//     });
+
+//     statusText.innerHTML = `<span class="text-green-500 animate-bounce">Player Selected: #${selectedPlayer.id}</span>`;
+
+//     setTimeout(() => {
+//       overlay.classList.add("opacity-0");
+//       setTimeout(() => {
+//         overlay.remove();
+//         document.getElementById("searchId").value = selectedPlayer.id;
+//         loadPlayer();
+//       }, 500);
+//     }, 2000);
+//   }, 3000);
+// }
 
 /* ==========================================
    UTILITIES & NAVIGATION
