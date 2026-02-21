@@ -331,7 +331,7 @@ let currentBid = 3000;
 let activePlayer = null;
 
 const themeMusic = new Audio("sounds/ipl3.mp3");
-const soldMusic = new Audio("sounds/ipl2.mp3");
+const soldMusic = new Audio("sounds/ipl02.mp3");
 const bidTick = new Audio("sounds/bid_tick.mp3");
 
 /* ==========================================
